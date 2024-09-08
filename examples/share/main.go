@@ -27,15 +27,8 @@ func Ants() {
 }
 
 func GoPool() {
-	// size 是最大允许并发的数量
 	wg := sync.WaitGroup{}
 
-	// 创建任务通道
-
-	// 我们自己写并发,为了控制并发的数目,要限制这个size
-	// 只是限制了并发的数量,并没有达到复用的目的,所以速度自然变慢了
-
-	// 提交任务到通道
 	for i := 2; i <= 100000; i++ {
 		wg.Add(1)
 		gopool.Go(func() {
@@ -49,7 +42,6 @@ func GoPool() {
 
 	}
 
-	// 关闭任务通道，等待所有任务完成
 	wg.Wait()
 }
 
@@ -68,5 +60,4 @@ func Gmp() {
 
 	}
 	wg.Wait()
-
 }
