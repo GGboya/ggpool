@@ -52,6 +52,7 @@ func (wq *workerStack) refresh(duration time.Duration) []worker {
 	if index != -1 {
 		wq.expiry = append(wq.expiry, wq.items[:index+1]...)
 		m := copy(wq.items, wq.items[index+1:])
+		// 防止内存泄漏
 		for i := m; i < n; i++ {
 			wq.items[i] = nil
 		}

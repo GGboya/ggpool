@@ -385,6 +385,7 @@ retry:
 	if capacity := p.Cap(); capacity == -1 || capacity > p.Running() {
 		p.lock.Unlock()
 		w = p.workerCache.Get().(*goWorker)
+		// 最开始没有 worker 的时候,他会新建一个
 		w.run()
 		return
 	}
@@ -420,6 +421,7 @@ func (p *Pool) revertWorker(worker *goWorker) bool {
 	p.lock.Lock()
 	// To avoid memory leaks, add a double check in the lock scope.
 	// Issue: https://github.com/panjf2000/ants/issues/113
+	// 双重检测，防止内存泄漏
 	if p.IsClosed() {
 		p.lock.Unlock()
 		return false
